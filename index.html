@@ -1,12 +1,53 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Superhero Phone Book</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
+<html lang="en" ng-app="superheroApp">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>Superhero Phone Book</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+  </head>
+
+<body ng-controller="superheroController as vm">
+
+  <div>
+    <p>Search Hero by name:</p>
+    <input type="text" ng-model="vm.searchHero">
+  </div>
+
+
+
+  <div ng-repeat="hero in vm.superheroes | filter: {name: vm.searchHero}" ng-class="{'dc': hero.comicsAffiliation == 'DC', 'marvel': hero.comicsAffiliation == 'Marvel' }">
+    <p>{{hero.name}}</p>
+    <p>Phone Number: {{hero.phoneNumber}}</p>
+    <p>Comics Affliation: {{hero.comicsAffiliation}}</p>
+    <button ng-click="vm.showImage[$index] = !vm.showImage[$index]">{{vm.buttonText}}</button>
+    <button ng-click="editing = true">Edit Hero</button>
+    <div ng-show="editing">
+      <input type="text" placeholder="Name" ng-model="vm.editHeroName">
+      <input type="text" placeholder="Phone Number" ng-model="vm.editHeroPhoneNumber">
+      <input type="text" placeholder="Comics Affiliation" ng-model="vm.editHeroComicsAffliation">
+      <input type="text" placeholder="img_url" ng-model="vm.edit_img_url">
+      <button ng-click="vm.editHero([$index])">Finish Editing Hero</button>
+    </div>
+    <img src="{{hero.img_url}}" alt="{{hero.name}}" ng-show="vm.showImage[$index]">
+  </div>
+
+  <div class="">
+    <p>Add new Hero:</p>
+    <input type="text" placeholder="Name" ng-model="vm.heroName">
+    <input type="text" placeholder="Phone Number" ng-model="vm.heroPhoneNumber">
+    <input type="text" placeholder="Comics Affiliation" ng-model="vm.heroComicsAffliation">
+    <input type="text" placeholder="img_url" ng-model="vm.img_url">
+    <button ng-click="vm.addHero()">Add Hero</button>
+  </div>
+
+
+
+
 
   <script src="app.js"></script>
 </body>
+
+
 </html>
